@@ -1,4 +1,4 @@
-# Artsiom Charniauski 
+# Artsiom Charniauski
 **SeniorSoftware Engineer / Team Lead**  
 Cloud-Native .NET • Distributed Systems • Event-Driven Architecture • Kubernetes • AI-Augmented Development
 
