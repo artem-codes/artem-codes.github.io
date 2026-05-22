@@ -18,7 +18,7 @@
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
 
-title: Artsiom Charniauski
+title: Software Engineer / Team Lead
 email: artsiom.charniauski@gmail.com
 description: >-
   Senior Software Engineer / Team Lead. Cloud-Native .NET, Distributed Systems,
