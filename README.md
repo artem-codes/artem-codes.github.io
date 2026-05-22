@@ -1,7 +1,3 @@
-theme: jekyll-theme-minimal
-title: SeniorSoftware Engineer / Team Lead
-description: Cloud-Native .NET • Distributed Systems • Event-Driven Architecture • Kubernetes • AI-Augmented Development
-
 # Artsiom Charniauski
 **SeniorSoftware Engineer / Team Lead**  
 Cloud-Native .NET • Distributed Systems • Event-Driven Architecture • Kubernetes • AI-Augmented Development
