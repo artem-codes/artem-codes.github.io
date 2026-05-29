@@ -72,3 +72,11 @@ English (B2) • Polish (A2) • Russian (C2) • Belarusian (Native)
 - Mrsoft — Fullstack .NET Developer (Oct 2014 – Feb 2017)
 - Itransition — .NET Developer (Dec 2012 – Jun 2014)
 - BiExpert — Junior .NET Developer (Aug 2011 – Dec 2012)
+
+---
+
+## Engineering Log
+
+I write about real implementation details behind the  scaling decisions, and production trade-offs. No fluff, architecture from systems I've actually built.
+
+→ [Read the Engineering Log](/log/)
