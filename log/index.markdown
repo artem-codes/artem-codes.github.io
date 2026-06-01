@@ -6,10 +6,10 @@ permalink: /log/
 
 # Engineering Log
 
-This section is for engineers. Here I document real architectural decisions, patterns, and trade-offs from production systems I've built.The stuff that actually matters when you ship at scale.
+This section is a technical annex to my résumé.
 
 ---
 
 ## Articles
 
-- [SAGA : Example](/log/saga-pattern-real-implementation/) — orchestration vs choreography, RabbitMQ logic
+- [Microservices in Practice:Communication & Workflow Orchestration](/log/microservices-communication/) — event-driven architecture, state machines, message routing

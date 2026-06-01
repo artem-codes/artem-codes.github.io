@@ -76,7 +76,6 @@ English (B2) • Polish (A2) • Russian (C2) • Belarusian (Native)
 ---
 
 ## Engineering Log
+A technical annex to my resume.
 
-I write about real implementation details behind the  scaling decisions, and production trade-offs. No fluff, architecture from systems I've actually built.
-
-→ [Read the Engineering Log](/log/)
+- [Microservices Communication](/log/microservices-communication/)
