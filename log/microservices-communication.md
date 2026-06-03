@@ -44,10 +44,10 @@ Every message on the bus is strictly typed:
 
 ### State Machine
 
-- `Docs.Notifications.Workflow` is a Saga state machine where incoming events drive state transitions;
+`Docs.Notifications.Workflow` is a Saga state machine where incoming events drive state transitions;
 
 ### Event-driven scheduling
-- `Notifications.EventTicker` emits periodic ticks; `Notifications.State` reacts by scanning for due tasks. Decouples schedule from execution.
+`Notifications.EventTicker` emits periodic ticks; `Notifications.State` reacts by scanning for due tasks. Decouples schedule from execution.
 
 > High-load scheduling is a topic that deserves its own article. A few considerations:
 >
