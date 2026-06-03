@@ -42,7 +42,7 @@ Every message on the bus is strictly typed:
 - **Query** — one consumer,  request/reply pattern
 - **Event** — many consumers, immutable fact, fan-out.
 
-### State Machine · EventTicker · Statistics
+### State Machine
 
 - `Docs.Notifications.Workflow` is a Saga state machine where incoming events drive state transitions;
 
