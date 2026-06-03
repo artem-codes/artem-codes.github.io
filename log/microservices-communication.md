@@ -17,11 +17,57 @@ Since microservices communication is a hot topic, I decided to prepare an exampl
 
 ### Flow Overview
 
-1. **Admin** leaves a note on a document paragraph via `Docs.Editor.Web` — a thin web service with no business logic, responsible only for authentication, authorization, and request validation — which issues `command.document.note.add`.
-2. `Docs.Metadata.State` updates the document summary.
-3. `Docs.Notifications.Workflow` kicks off a **state machine**: triggers an immediate notification, schedules a 2-hour digest reminder, and sets a 24-hour timeout — all cancellable if the user views the note earlier.
-4. `Notifications.State` registers a scheduled task in DB. `Notifications.EventTicker` emits periodic tick events to check for unprocessed tasks.
-5. `Notifications.Dispatcher` orchestrates enrichment — fetches recipient info from `Notifications.Account` and template data from `Notifications.Template.Store` — then sends `command.notification.email.send`.
-6. `Notifications.SMTP` delivers the email and publishes `event.notification.sent` or `event.notification.failed`.
-7. When the **Customer** opens the email link, `Docs.Viewer.Web` emits `event.document.note.viewed`, which cancels any pending scheduled notifications in the workflow.
+1. **Admin** adds a note via `Docs.Editor.Web` → `command.document.note.add`
+2. `Docs.Metadata.State` updates the document summary
+3. `Docs.Notifications.Workflow` (**state machine**) triggers immediate notification + schedules digest/timeout — cancellable on early view
+4. `Notifications.State` + `EventTicker` handle scheduled task execution
+5. `Notifications.Dispatcher` enriches recipient/template → `command.notification.email.send`
+6. `Notifications.SMTP` delivers email → `event.notification.sent` / `failed`
+7. **Customer** opens link → `Docs.Viewer.Web` emits `event.document.note.viewed`, cancelling pending notifications
+
+---
+
+## Patterns in Action
+
+### DDD — Bounded Contexts
+
+Services are split by domain and subdomain:
+Each context owns its data and communicates only through the bus.
+
+### CQRS
+
+Every message on the bus is strictly typed:
+
+- **Command** — one consumer, expresses intent
+- **Query** — one consumer,  request/reply pattern
+- **Event** — many consumers, immutable fact, fan-out.
+
+### State Machine · EventTicker · Statistics
+
+- `Docs.Notifications.Workflow` is a Saga state machine where incoming events drive state transitions;
+
+### Event-driven scheduling
+- `Notifications.EventTicker` emits periodic ticks; `Notifications.State` reacts by scanning for due tasks. Decouples schedule from execution.
+
+> High-load scheduling is a topic that deserves its own article. A few considerations:
+>
+> - `Time-shift` — scheduled tasks are spread across a window (e.g. ±5 min jitter) to avoid spikes.
+> - `Conditional suppression` — skip emission when recipients are in night hours (no point waking a queue if nobody will read the email).
+> - `Partitioning` — tasks are partitioned so consumers process slices in parallel.
+ 
+### Thin Web Gateways
+
+`Docs.Editor.Web` / `Docs.Viewer.Web` handle only auth, validation, and routing — no domain logic.
+
+### Idempotency
+
+`Docs.Viewer.Web` is the most obvious source of duplicates, but we have to be ready to handle duplicates across all services. All downstream consumers should be **idempotent** — processing the same event twice produces no side effects.
+
+### Pipes and Filters — Processing Pipeline
+
+Notification delivery is a linear pipeline where each step performs a single transformation:
+
+```
+Notification → Recipient Enrichment → Template Enrichment → SMTP Delivery → Statistics
+```
 
