@@ -86,14 +86,16 @@ Result: the nominal 09:00 batch is distributed over the 09:00–09:05 window. Th
 
 ## Batching — Reduce Round Trips
 
-Instead of writing to the database on every `event.notification.sent/failed`, `Notifications.State` accumulates events in memory for 2–3 minutes, then flushes them as a single bulk update:
+Instead of writing to the database on every `event.notification.sent/failed`, events accumulate in a buffer and are consumed in batches on a timer (every N minutes).The system should have a resilient buffer that survives service restarts.
+
+> Kafka ksqlDB with tumbling window aggregations is a good fit for implementing this buffer — accumulation and batch emission happen in the infrastructure layer, keeping consumers stateless.
 
 ```mermaid
 flowchart LR
-    E1([event.sent]) --> B[Buffer\n2-3 min]
+    E1([event.sent]) --> B[Buffer\n3 min ]
     E2([event.sent]) --> B
     E3([event.failed]) --> B
-    B -->|bulk UPDATE| DB[(Database)]
+    B -->|consume batch\nbulk UPDATE| DB[(Database)]
 ```
 
-Result: hundreds of individual `UPDATE` statements collapse into one round trip. The trade-off is a short delay before the status is persisted.
+Result: hundreds of individual `UPDATE` statements collapse into one round trip. The trade-off is a delay before the status is persisted.
