@@ -49,7 +49,7 @@ Every message on the bus is strictly typed:
 ### Event-driven scheduling
 `Notifications.EventTicker` emits periodic ticks; `Notifications.State` reacts by scanning for due tasks. Decouples schedule from execution.
 
-> High-load scheduling is a topic that deserves its own article. A few considerations:
+> High-load scheduling is a topic that deserves its own article: [High-Load Database Patterns](/log/high-load-database/). A few considerations:
 >
 > - `Time-shift` — scheduled tasks are spread across a window (e.g. ±5 min jitter) to avoid spikes.
 > - `Conditional suppression` — skip emission when recipients are in night hours (no point waking a queue if nobody will read the email).

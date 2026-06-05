@@ -79,3 +79,4 @@ English (B2) • Polish (A2) • Russian (C2) • Belarusian (Native)
 A technical annex to my resume.
 
 - [Microservices Communication](/log/microservices-communication/)
+- [High-Load Database Patterns](/log/high-load-database/)
