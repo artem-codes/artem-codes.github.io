@@ -80,3 +80,4 @@ A technical annex to my resume.
 
 - [Microservices Communication](/log/microservices-communication/)
 - [High-Load Database Patterns](/log/high-load-database/)
+- [AI-Driven Development Workflow: Plan-First Pipeline](/log/ai-driven-development-workflow/)
